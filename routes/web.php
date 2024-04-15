@@ -15,4 +15,7 @@ Route::get('/form', function () {
 
 Route::post('/form', [FormController::class, 'add'])->name('addform');
 Route::get('', [FormController::class,'index'])->name('showform');
+Route::get('/formInfo/{id}', [FormController::class, 'infoForm'])->name('infoForm');
+Route::get('/ContactEdit/{id}/', [FormController::class, 'edit'])->name('editForm');
+Route::put('/Contact/{id}', [FormController::class, 'update'])->name('updateForm');
 // Route::get('/form', [FormController::class, 'show'])->name('form');

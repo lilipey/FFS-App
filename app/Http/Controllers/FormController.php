@@ -27,7 +27,29 @@ class FormController extends Controller
         $forms = form::all();
         return view('home', ['forms' => $forms]);
     }
+    public function infoForm($id){
+        $form = form::find($id);
+        return view('formInfo', ['form' => $form]);
+    }
 
+    public function edit($id)
+    {
+        $form = form::find($id);
+        $groups = Group::all(); // Get all groups to display in the form
+        return view('formEdit', ['form' => $form, 'groups' => $groups]);
+    }
+    
+    public function update(Request $request, $id)
+    {
+        $form = form::find($id);
+        $form->first_name = $request->first_name;
+        $form->last_name = $request->last_name;
+        $form->phone_number = $request->phone;
+        $form->email = $request->email;
+        $form->save();
+        $groupIds = $request->groups; // This is an array of group IDs from your form
+        return redirect('/home');  
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -55,18 +77,18 @@ class FormController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+    // public function edit(string $id)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    // public function update(Request $request, string $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.

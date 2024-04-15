@@ -15,7 +15,7 @@
                 <td>{{ $form->last_name }}</td>
                 <td>{{ $form->date_of_the_event->format('d/m/Y') }}</td>
                 <td>{{ $form->phone_number }}</td>
-                <td>{{ $form->email }}
+                <td>{{ $form->email }}     
             </td>
             </tr>
         @endforeach

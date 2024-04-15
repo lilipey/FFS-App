@@ -27,17 +27,22 @@ class FormController extends Controller
         $forms = form::all();
         return view('home', ['forms' => $forms]);
     }
+    
     public function infoForm($id){
         $form = form::find($id);
         return view('formInfo', ['form' => $form]);
     }
 
-    public function edit($id)
-    {
+    public function infoEditForm($id){
         $form = form::find($id);
-        $groups = Group::all(); // Get all groups to display in the form
-        return view('formEdit', ['form' => $form, 'groups' => $groups]);
+        return view('formEdit', ['form' => $form]);
     }
+
+    // public function edit($id)
+    // {
+    //     $form = form::find($id);
+    //     return view('formEdit', ['form' => $form, 'groups' => $groups]);
+    // }
     
     public function update(Request $request, $id)
     {
@@ -47,8 +52,8 @@ class FormController extends Controller
         $form->phone_number = $request->phone;
         $form->email = $request->email;
         $form->save();
-        $groupIds = $request->groups; // This is an array of group IDs from your form
-        return redirect('/home');  
+        $groupIds = $request->groups;
+        return redirect('/');  
     }
     /**
      * Show the form for creating a new resource.

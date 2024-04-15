@@ -1,3 +1,4 @@
+
 <table>
     <thead>
         <tr>
@@ -11,15 +12,15 @@
     <tbody>
         @foreach ($experiences as $experience)
             <tr>
-            <td><a href="{{ url('experienceInfo/' . $experience->id) }}">{{ $experience->first_name }}</a></td>
-                <td>{{ $experience->last_name }}</td>
-                <td>{{ $experience->date_of_the_event->format('d/m/Y') }}</td>
-                <td>{{ $experience->phone_number }}</td>
-                <td>{{ $experience->email }}     
-            </td>
+                <td><a href="{{ url('experienceInfo/' . $experience->id) }}">{{$experience->first_name }}</a></td>
+                    <td>{{ $experience->last_name }}</td>
+                    <td>{{ $experience->date_of_the_event->format('d/m/Y') }}</td>
+                    <td>{{ $experience->phone_number }}</td>
+                    <td>{{ $experience->email }}</td> 
             </tr>
         @endforeach
-</table> 
+    </tbody>
+</table>
 <style>
     table {
         width: 100%;

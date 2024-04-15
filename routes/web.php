@@ -14,4 +14,5 @@ Route::get('/form', function () {
 });
 
 Route::post('/form', [FormController::class, 'add'])->name('addform');
+Route::get('', [FormController::class,'index'])->name('showform');
 // Route::get('/form', [FormController::class, 'show'])->name('form');

@@ -22,11 +22,11 @@ class FormController extends Controller
         $form->save();
         return redirect('/form');  
     }
-    // public function index()
-    // {
-    //     $forms = form::all();
-    //     return view('form', ['forms' => $forms]);
-    // }
+    public function index()
+    {
+        $forms = form::all();
+        return view('home', ['forms' => $forms]);
+    }
 
     /**
      * Show the form for creating a new resource.

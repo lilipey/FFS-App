@@ -9,13 +9,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($forms as $form)
+        @foreach ($experiences as $experience)
             <tr>
-            <td><a href="{{ url('formInfo/' . $form->id) }}">{{ $form->first_name }}</a></td>
-                <td>{{ $form->last_name }}</td>
-                <td>{{ $form->date_of_the_event->format('d/m/Y') }}</td>
-                <td>{{ $form->phone_number }}</td>
-                <td>{{ $form->email }}     
+            <td><a href="{{ url('experienceInfo/' . $experience->id) }}">{{ $experience->first_name }}</a></td>
+                <td>{{ $experience->last_name }}</td>
+                <td>{{ $experience->date_of_the_event->format('d/m/Y') }}</td>
+                <td>{{ $experience->phone_number }}</td>
+                <td>{{ $experience->email }}     
             </td>
             </tr>
         @endforeach

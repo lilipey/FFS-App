@@ -1,26 +1,33 @@
 
-<table>
-    <thead>
-        <tr>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Date de l'evenements</th>
-            <th>Numéro de téléphone</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($experiences as $experience)
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Profile') }}
+        </h2>
+    </x-slot>
+    <table>
+        <thead>
             <tr>
-                <td><a href="{{ url('experienceInfo/' . $experience->id) }}">{{$experience->first_name }}</a></td>
-                    <td>{{ $experience->last_name }}</td>
-                    <td>{{ $experience->date_of_the_event->format('d/m/Y') }}</td>
-                    <td>{{ $experience->phone_number }}</td>
-                    <td>{{ $experience->email }}</td> 
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Date de l'evenements</th>
+                <th>Numéro de téléphone</th>
+                <th>Email</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach ($experiences as $experience)
+                <tr>
+                    <td><a href="{{ url('experienceInfo/' . $experience->id) }}">{{$experience->first_name }}</a></td>
+                        <td>{{ $experience->last_name }}</td>
+                        <td>{{ $experience->date_of_the_event->format('d/m/Y') }}</td>
+                        <td>{{ $experience->phone_number }}</td>
+                        <td>{{ $experience->email }}</td> 
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</x-app-layout>
 <style>
     table {
         width: 100%;

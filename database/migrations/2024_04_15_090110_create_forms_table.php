@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->date('date_of_the_event');
             $table->string('phone_number');
+            $table->integer('status');
             $table->string('email');
         });
     }

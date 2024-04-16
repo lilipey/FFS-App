@@ -11,7 +11,9 @@
     <p>Email : {{ $experience->email }}</p>
     <img src=" {{ $experience->photo_url }}"/>
 </div>
-<a href="{{ url('experienceEdit/' . $experience->id) }}">{{ $experience->first_name }}</a>
+@if($experience->status != 3)
+    <a href="{{ url('experienceEdit/' . $experience->id) }}">modifier</a>
+@endif
 
 
 

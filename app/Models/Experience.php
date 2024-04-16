@@ -10,5 +10,7 @@ class Experience extends Model
     use HasFactory;
     protected $casts = [
         'date_of_the_event' => 'date',
+        'status' => 'integer',
     ];
+    
 }

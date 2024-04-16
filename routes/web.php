@@ -20,21 +20,23 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/welcome', function () {
     return view('welcome');
-});
+}) ;
 Route::get('/', function () {
     return view('home');
 });
+
 Route::get('/experience', function () {
     return view('experience');
 });
 
 Route::post('/experience', [experienceController::class, 'add'])->name('addexperience');
+Route::get('/experience', [ExperienceController::class, 'indexActivity'])->name('experience');
 Route::get('', [experienceController::class,'index'])->name('showexperience');
 Route::get('/experienceInfo/{id}', [experienceController::class, 'infoExperience'])->name('infoexperience');
 Route::get('/experienceEdit/{id}', [experienceController::class, 'infoEditexperience'])->name('modifyexperience');
 // Route::get('/ContactEdit/{id}/', [experienceController::class, 'edit'])->name('editexperience');
 Route::put('/experienceEdit/{id}', [experienceController::class, 'update'])->name('updateExperience');
 // Route::get('/experience', [experienceController::class, 'show'])->name('experience');
-
-
+Route::get('experienceEdit/{id}', [experienceController::class, 'edit']);
+Route::delete('deleteContact/{id}', [experienceController::class, 'destroy'])->name('deleteExperience');
 require __DIR__.'/auth.php';

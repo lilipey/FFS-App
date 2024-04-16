@@ -27,7 +27,7 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" value="{{ $experience->email }}">
 
-
         <button type="submit">Mettre à jour</button>
+        <a href="{{ url('experienceInfo/' . $experience->id) }}">Annuler</a>
     </form>
 </x-app-layout>

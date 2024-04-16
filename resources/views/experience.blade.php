@@ -13,7 +13,11 @@
         <input type="date" name="date_of_the_event" placeholder="Date de naissance">
         <input type="text" name="phone" placeholder="Numéro de téléphone">
         <input type="email" name="email" placeholder="Email">
+        <select name="activity_id">
+            @foreach($activities as $activity)
+                <option value="{{ $activity->id }}">{{ $activity->name }}</option>
+            @endforeach
+        </select>
         <button type="submit">Ajouter le form</button>
     </form>
-
 </x-app-layout>

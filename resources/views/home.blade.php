@@ -23,7 +23,16 @@
                         <td>{{ $experience->date_of_the_event->format('d/m/Y') }}</td>
                         <td>{{ $experience->phone_number }}</td>
                         <td>{{ $experience->email }}</td> 
+                        
+                        <td>
+                        <form method="POST" action="{{ route('deleteExperience', $experience->id) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Supprimer le contact</button>
+                        </form>
+                    </td>
                 </tr>
+                
             @endforeach
         </tbody>
     </table>

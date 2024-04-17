@@ -11,13 +11,57 @@ class ExperiencesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        // $experiences = Experience::all();
-        // $experience = Experience::whereNotNull('published_at')->get();
-        // return view('experiences.index', ['experiences' => $experiences]);
+    // public function index(Request $request)
+    // {
+    //     // $experiences = Experience::all();
+    //     // $experience = Experience::whereNotNull('published_at')->get();
+    //     // return view('experiences.index', ['experiences' => $experiences]);
         
 
+    //     $search = $request->get('search');
+    //     $activity_select = $request->get('activity');
+    //     $date = $request->get('date');
+    //     $date2 = $request->get('date2');
+    //     $formatted_date = new DateTime($date);
+    //     $formatted_date2 = new DateTime($date2);
+    //     $date_period = $request->get('date-period');
+
+    //     $query = Experience::query();
+    //     $activities = $query->pluck('activity')->unique();
+
+    //     if ($activity_select) {
+    //         $query->where('activity', $activity_select);
+    //     }
+        
+    //     if ($date_period == 'before' && $date != null) {
+    //         $query->where('date', '<', $formatted_date);
+    //     } elseif ($date_period == 'after' && $date != null) {
+    //         $query->where('date', '>', $formatted_date);
+    //     } elseif ($date_period == 'between' && $date != null && $date2 != null) {
+    //         $query->whereBetween('date', [$formatted_date, $formatted_date2]);
+    //     }
+
+    //     if ($search) {
+    //         $query->where(function ($query) use ($search) {
+    //             $query->where('title', 'like', "%{$search}%")
+    //                 ->orWhere('site_name', 'like', "%{$search}%");
+    //         });
+    //     }
+
+    //     $experiences = $query->whereNotNull('published_at')->orderBy('published_at', 'desc')->get();
+    //     // $activities = $query->pluck('activity')->unique();
+    //     return view('experiences.index', compact('experiences', 'activities'), [
+    //         'search' => $search,
+    //         'activity_select' => $activity_select,
+    //         'date_period' => $date_period,
+    //         'date' => $date,
+    //         'date2' => $date2,
+    //     ]);
+    // }
+
+    
+    private function getData(Request $request)
+    {
         $search = $request->get('search');
         $activity_select = $request->get('activity');
         $date = $request->get('date');
@@ -25,6 +69,7 @@ class ExperiencesController extends Controller
         $formatted_date = new DateTime($date);
         $formatted_date2 = new DateTime($date2);
         $date_period = $request->get('date-period');
+        $published = Experience::whereNotNull('published_at')->get();
 
         $query = Experience::query();
         $activities = $query->pluck('activity')->unique();
@@ -32,7 +77,7 @@ class ExperiencesController extends Controller
         if ($activity_select) {
             $query->where('activity', $activity_select);
         }
-        
+
         if ($date_period == 'before' && $date != null) {
             $query->where('date', '<', $formatted_date);
         } elseif ($date_period == 'after' && $date != null) {
@@ -47,19 +92,25 @@ class ExperiencesController extends Controller
                     ->orWhere('site_name', 'like', "%{$search}%");
             });
         }
-
-        $experiences = $query->whereNotNull('published_at')->orderBy('published_at', 'desc')->get();
-        // $activities = $query->pluck('activity')->unique();
-
-        return view('experiences.index', compact('experiences', 'activities'), [
-            'search' => $search,
-            'activity_select' => $activity_select,
-            'date_period' => $date_period,
-            'date' => $date,
-            'date2' => $date2,
-        ]);
+        if ($published) {
+            $experiences = $query->whereNotNull('published_at')->orderBy('published_at', 'desc')->get();
+        } else {
+            $experiences = $query->whereNull('published_at')->orderBy('created_at', 'desc')->get();
+        }
+        return compact('experiences', 'activities', 'search', 'activity_select', 'date_period', 'date', 'date2');
     }
 
+    public function index(Request $request)
+    {
+        $data = $this->getData($request);
+        return view('experiences.index', $data);
+    }
+
+    public function indexDashboard(Request $request)
+    {
+        $data = $this->getData($request);
+        return view('dashboard', $data);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -126,30 +177,33 @@ class ExperiencesController extends Controller
         //     // dd('You cannot edit this experience');
         //     return redirect('/');
         // }
-        $experience->first_name = $request->first_name;
-        $experience->last_name = $request->last_name;
-        $experience->site_name = $request->site_name;
-        $experience->title = $request->title;
-        $experience->place = $request->place;
-        $experience->date = $request->date;
-        $experience->distance = $request->distance;
-        $experience->description = $request->description;
-        $experience->email = $request->email;
-        if($request->hasFile('image')) {
-            $image = $request->file('image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $location = public_path('images/' . $filename);
-            Image::make($image)->resize(800, 400)->save($location);
-            $experience->image = $filename;
-        }
-        
-        if ($request->has('published')) {
-            // dd(now());
-            $experience->published_at = now();
-            $show = true;
-            
-        }
-        $experience->save();
+        if ($experience->published_at === null){
+            $experience->first_name = $request->first_name;
+            $experience->last_name = $request->last_name;
+            $experience->site_name = $request->site_name;
+            $experience->title = $request->title;
+            $experience->place = $request->place;
+            $experience->date = $request->date;
+            $experience->distance = $request->distance;
+            $experience->description = $request->description;
+            $experience->email = $request->email;
+            if($request->hasFile('image')) {
+                $image = $request->file('image');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $location = public_path('images/' . $filename);
+                Image::make($image)->resize(800, 400)->save($location);
+                $experience->image = $filename;
+            } 
+            if ($request->has('published')) {
+                // dd(now());
+                $experience->published_at = now();
+                $show = true;
+                
+            }
+            $experience->save();
+        } else{
+            dd('You cannot edit this experience');
+        }   
         return redirect('/');  
     }
 

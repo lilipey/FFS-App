@@ -13,13 +13,19 @@ return new class extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('email');
             $table->string('first_name');
             $table->string('last_name');
-            $table->date('date_of_the_event');
-            $table->string('phone_number');
-            $table->integer('status');
-            $table->string('email');
+            $table->string('site_name');
+            $table->string('title');
+            $table->string('place');
+            $table->date('date');
+            $table->integer('distance');
+            $table->text('description');
+            $table->string("activity");
+            $table->string('image')->nullable();
+            $table->string('last_modif')->nullable();
+            $table->timestamps();
         });
     }
 

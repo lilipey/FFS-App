@@ -12,7 +12,7 @@ class experienceController extends Controller
        /**
      * Display a listing of the resource.
      */
-    public function add(Request $request)
+    public function store(Request $request)
     {
         $experience= new experience;
         $experience->first_name = $request->first_name;
@@ -24,24 +24,25 @@ class experienceController extends Controller
         $experience->activity_id = $request->activity_id;
         // dd($experience->status);
         $experience->save();
-        return redirect('/experience');  
+        return redirect('/experience.store');  
     }
 
     public function index()
     {
-        $experiences = experience::all();
-        return view('home', ['experiences' => $experiences ]);
+        $experiences = Experience::all();
+        $activities = Activity::all(); 
+        return view('home', ['experiences' => $experiences, 'activities' => $activities]);
     }
 
-    public function indexActivity(){
+    public function create(){
         $activities = Activity::all(); // Changez $activity en $activities
-        return view('experience', ['activities'=> $activities ]);
+        return view('experiences.store', ['activities'=> $activities ]);
     }
     
-    public function infoExperience($id){
-        $experience = experience::find($id);
-        return view('experienceInfo', ['experience' => $experience]);
-    }
+    // public function infoExperience($id){
+    //     $experience = experience::find($id);
+    //     return view('experienceInfo', ['experience' => $experience]);
+    // }
 
     // public function infoEditexperience($id){
     //     $experience = experience::find($id);
@@ -108,18 +109,19 @@ class experienceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Display the specified resource.
      */
-    // public function show(string $id)
-    // {
-    //     //
-    // }
+    public function show(Experience $id)
+    {
+        $experience = experience::find($id);
+        return view('experienceInfo', ['experience' => $experience]);
+    }
 
     /**
      * Show the experience for editing the specified resource.

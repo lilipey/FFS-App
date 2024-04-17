@@ -12,5 +12,8 @@ class Experience extends Model
         'date_of_the_event' => 'date',
         'status' => 'integer',
     ];
+
+    
+    
     
 }

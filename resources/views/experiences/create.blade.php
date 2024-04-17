@@ -5,8 +5,8 @@
         </h2>
     </x-slot>
 
-    <h1>Mon répertoire</h1>
-    <form method="POST" action="/experience" enctype="multipart/form-data">
+    <h1>Mon expérience</h1>
+    <form method="POST" action="{{route('experiences.store')}}" enctype="multipart/form-data">
         @csrf
         <input type="text" name="first_name" placeholder="Prénom">
         <input type="text" name="last_name" placeholder="Nom">

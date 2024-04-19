@@ -30,13 +30,9 @@
                 @endif
             </div>
         </div>
-        @auth
-            @if($experience->published_at == null)
-                <a href="{{route('experiences.edit', $experience->id)}}" id="modify_button" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" style="    width: fit-content;
-                margin: auto;}">modifier</a>
-            @endif
-    @endauth
     </div>
+    <a href="{{ route('experiences.edit', $experience->id) }}" class="btn btn-primary mt-3">modifier</a>
+    <a href="javascript:history.back()" class="btn btn-primary mt-3">Retourner</a>
 
 </body>
 </html>

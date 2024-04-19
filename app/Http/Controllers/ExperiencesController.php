@@ -168,6 +168,8 @@ class ExperiencesController extends Controller
         //     // dd('You cannot edit this experience');
         //     return redirect('/');
         // }
+        $experience = Experience::find($experience->id);
+        $audits = $experience->audits;
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',

@@ -72,10 +72,6 @@
         </tbody>
     </table>
 </x-app-layout>
-<style>
-   
-
-</style>
 <script>
         var searchField = document.getElementById('search-field');
 

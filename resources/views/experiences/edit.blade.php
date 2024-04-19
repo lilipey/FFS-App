@@ -52,15 +52,20 @@
                             <input type="email" id="email" name="email" value="{{ $experience->email }}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
                         <div>
-                        <button type="submit">Mettre à jour</button>
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">Mettre à jour</button>
+                            <button type="submit" name="published" value="published" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">published</button>
+                        <!-- <button type="submit" class="btn btn-primary mt-3">Mettre à jour</button> -->
                             <!-- <input type="submit" name="update" value="Publier">  -->
                             <!-- <a href="{{ url('experienceInfo/' . $experience->id) }}">Annuler</a>  -->
                         <!-- <input type="submit" name="publier" value="publier"> -->
-                        <button type="submit" name="published" value="published">published</button>
+                        <!-- <button type="submit" name="published" value="published" class="btn btn-primary mt-3">published</button> -->
                         </div>
+                        <!-- <a href="javascript:history.back()" class="btn btn-primary mt-3">Retourner</a> -->
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <a href="javascript:history.back()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">Retourner</a>
+    <a href="{{ route('dashboard') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">Dashboard</a>
 </x-app-layout>

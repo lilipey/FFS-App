@@ -6,17 +6,17 @@
             <div class="flex">
                 <!-- Logo -->
                 @if (Auth::check())
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-200" />
-                    </a>
-                </div>
+                    <div class="shrink-0 flex items-center">
+                        <a href="{{ route('dashboard') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-200" />
+                        </a>
+                    </div>
                 @else
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('experiences.index') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-200" />
-                    </a>
-                </div>
+                    <div class="shrink-0 flex items-center">
+                        <a href="{{ route('experiences.index') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-200" />
+                        </a>
+                    </div>
                 @endif
 
                 <!-- Navigation Links -->
@@ -57,15 +57,19 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @auth
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Profil') }}
                         </x-dropdown-link>
+                        @endauth
+                        @guest
                         <x-dropdown-link :href="route('login')">
-                            {{ __('Login') }}
+                            {{ __('Se connecter') }}
                         </x-dropdown-link>
                         <x-dropdown-link :href="route('register')">
-                            {{ __('register') }}
+                            {{ __("S'inscrire") }}
                         </x-dropdown-link>
+                        @endguest
                         <!-- @auth
                         <x-dropdown-link :href="route('login')">
                             {{ __('Logout') }}
@@ -81,7 +85,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Se déconnecter') }}
                             </x-dropdown-link>
                         </form>
                         @endauth
@@ -133,7 +137,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Se déconnecter') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

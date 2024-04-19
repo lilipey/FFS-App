@@ -88,7 +88,6 @@ Les migrations sont des scripts PHP qui permettent de gérer la structure de la 
 php artisan migrate
 \```
 
-![Exécution des migrations](chemin/vers/image_migration.png)
 
 ### Exécuter les seeders
 
@@ -97,8 +96,6 @@ Les seeders sont des scripts qui permettent de peupler la base de données avec 
 \```php
 php artisan db:seed
 \```
-
-![Exécution des seeders](chemin/vers/image_seeder.png)
 
 ### Lancer le serveur
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Experience;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use DateTime;
 
 class ExperiencesController extends Controller
@@ -97,7 +98,7 @@ class ExperiencesController extends Controller
             'site_name' => 'required',
             'title' => 'required',
             'place' => 'required',
-            'date' => 'required',
+            'date' => 'required|date|before:now',
             'distance' => 'required',
             'description' => 'required',
             'activity' => 'required',
@@ -109,10 +110,13 @@ class ExperiencesController extends Controller
             'title.required' => 'Le titre est requis.',
             'place.required' => 'Le lieu est requis.',
             'date.required' => 'La date est requise.',
+            'date.before' => 'La date doit être antérieure à la date actuelle.',
             'distance.required' => 'La distance est requise.',
             'description.required' => 'La description est requise.',
             'activity.required' => 'L\'activité est requise.',
             'email.required' => 'L\'email est requis.',
+            'email.email' => 'L\'email doit être une adresse email valide.',
+        
         ]);
         $experience= new Experience;
         $experience->first_name = $request->first_name;
@@ -126,18 +130,31 @@ class ExperiencesController extends Controller
         $experience->activity = $request->activity;
         $experience->email = $request->email;
 
-        if($request->hasFile('image')) {
-            $image = $request->file('image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $location = public_path('images/' . $filename);
-            Image::make($image)->resize(800, 400)->save($location);
+        // if($request->hasFile('image')) {
+        //     $image = $request->file('image');
+        //     $filename = time() . '.' . $image->getClientOriginalExtension();
+        //     $location = public_path('images/' . $filename);
+        //     Image::make($image)->resize(800, 400)->save($location);
 
-            $experience->image = $filename;
+        //     $experience->image = $filename;
+        // }
+        if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('images', 'public');
+                $experience->image = $imagePath;
         }
 
         $experience->save();
-
-        return redirect()->route('experiences.index')->with('success', 'Votre experience a été soumise.');
+        if (Auth::check()) {
+            if (!request()->is('dashboard')) {
+                return redirect()->route('dashboard')->with('success', 'Votre experience a été soumise.Elle sera publiée après validation.');
+            }
+            return redirect()->route('dashboard');
+        } else {
+            if (!request()->is('experiences.index')) {
+                return redirect()->route('experiences.index')->with('success', 'Votre experience a été soumise.Elle sera publiée après validation.');
+            }
+            return redirect()->route('experiences.index');
+        }
     }
 
     /**
@@ -145,8 +162,10 @@ class ExperiencesController extends Controller
      */
     public function show(Experience $experience)
     {
+        $audits = $experience->audits;
         $experience->published_at;
-        return view('experiences.show', ['experience' => $experience ]);
+        
+        return view('experiences.show', ['experience' => $experience ] );
     }
 
     /**
@@ -201,28 +220,36 @@ class ExperiencesController extends Controller
             $experience->distance = $request->distance;
             $experience->description = $request->description;
             $experience->email = $request->email;
-            if($request->hasFile('image')) {
-                $image = $request->file('image');
-                $filename = time() . '.' . $image->getClientOriginalExtension();
-                $location = public_path('images/' . $filename);
-                Image::make($image)->resize(800, 400)->save($location);
-                $experience->image = $filename;
-            } 
+            // if($request->hasFile('image')) {
+            //     $image = $request->file('image');
+            //     $filename = time() . '.' . $image->getClientOriginalExtension();
+            //     $location = public_path('images/' . $filename);
+            //     Image::make($image)->resize(800, 400)->save($location);
+            //     $experience->image = $filename;
+            // } 
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('images', 'public');
+                $experience->image = $imagePath;
+            }
             if ($request->has('published')) {
                 // dd(now());
                 $experience->published_at = now();
                 // $show = true;
-
             }
             $experience->save();
         } else{
             dd('You cannot edit this experience');
         }   
         // return redirect('/'); 
-        if ($experience->published_at != null) {
-            return redirect()->route('dashboard')->with('success', 'Ca été publié avec succès');
-        }else{
-            return redirect()->route('dashboard')->with('success', 'Ca été mis à jour avec succès');
+
+        if ($experience->wasChanged()) {
+            if ($experience->published_at != null) {
+                return redirect()->route('dashboard')->with('success',  "L'expérience été publiés avec succès");
+            } else {
+                return redirect()->route('dashboard')->with('success', "L'expérience été mis à jour avec succès");
+            }
+        } else {
+            return redirect()->route('dashboard');
         }
     }
 

@@ -11,7 +11,8 @@
         </h2>
     </x-slot>
     <body>
-    <div class="container mt-5">
+    @if ($experience->published_at || Auth::user()) {
+        <div class="container mt-5">
         <div class="card">
             <div class="card-header">
                 <h2>Experience Details</h2>
@@ -25,7 +26,10 @@
                 <p class="card-text"><strong>Activity:</strong> <span class="text-muted">{{ $experience->activity }}</span></p>
                 <p class="card-text"><strong>Description:</strong> <span class="text-muted">{{ $experience->description }}</span></p>
                 <p class="card-text"><strong>Email:</strong> <span class="text-muted">{{ $experience->email }}</span></p>
-                <img src="{{ asset('storage/' . $experience->image) }}" alt="" style="width:200px; margin: 20px;">
+                @if($experience->image!=null)
+                    <img src="{{ asset('storage/' . $experience->image) }}" alt="" style="width:200px; margin: 20px;">
+                @endif
+                
                 @auth
                     @php
                         $updatedAudits = $experience->audits->where('event', 'updated')->sortByDesc('created_at');
@@ -61,9 +65,6 @@
                         </div>
                     @endif
                 @endauth
-
-
-
                 <!-- @if($experience->image!=null)
                     <img class="img-fluid" src="{{ asset('images/' . $experience->image) }}" alt="Image">
                 @endif -->
@@ -77,9 +78,17 @@
         @endauth
 
     </div>
-    
+    }
+    @else
+        <script type="text/javascript">
+            window.location.href = "/login";
+        </script>
+    @endif
 </body>
 </html>
+    
+       
+    
 
 <!-- <script>
     document.getElementById('editButton').addEventListener('click', function() {

@@ -11,6 +11,7 @@
             {{ session('success') }}
         </div>
     @endif
+    <h1> Les retours d'expériences</h1>
 
     <form action="/experiences" method="GET" id="search-form">
             <input type="text" name="search" placeholder="Rechercher..." id="search-field" value="{{ $search }}">
@@ -30,7 +31,10 @@
                 <input type="date" name="date2" value="{{ $date2 }}" style="<?php if ($date_period != 'between') {echo 'display: none;';} ?>" id="date2">
                 <input type="submit" value="Filtrer">
             </div>
-            <a href="/experiences" class="button">Réinitialiser</a>
+            <div class= "button-container">
+                <a href="/experiences" class="button">Réinitialiser</a>
+            </div>
+           
     </form>
     <table>
         <thead>

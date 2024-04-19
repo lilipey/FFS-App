@@ -52,11 +52,17 @@ th, td {
     text-align: left;
 }
 
-.btn-primary, .button-nav,.bg-blue-500 {
+.btn-primary, .button-nav,.bg-blue-500,.button {
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+}
+.button-container{
+    margin: 20px;
+}
+.button{
+    padding: 10px;
 }

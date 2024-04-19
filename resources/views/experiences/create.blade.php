@@ -102,6 +102,12 @@
         </div>
         <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded button-nav">Soumettre</button>
     </form>
+    <div class= "button-container">
+        @auth
+        <a href="{{ route('dashboard') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 button-nav">Dashboard</a>
+        @endauth
+        <a href="{{ route('experiences.index') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 button-nav">Toutes les expériences</a>
+    </div>
 
 </x-app-layout>
 

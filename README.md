@@ -1,66 +1,109 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Guide pour lancer le projet sur votre machine
+Ce guide vous aidera à configurer et à lancer le projet sur votre machine locale. Les instructions sont fournies pour les systèmes d'exploitation Windows et Mac.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Prérequis
+• PHP
+• MySQL
 
-## About Laravel
+## Étapes
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Installer MySQL
+Pour Windows et Mac, vous pouvez télécharger MySQL à partir de [ici](https://dev.mysql.com/downloads/installer/).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Configurer le fichier .env
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Ouvrez le fichier '.env' dans l'éditeur de texte de votre choix. Trouvez et modifiez les lignes suivantes avec vos informations :
 
-## Learning Laravel
+'DB_PORT' : Remplacez sa valeur par le port de votre serveur MySQL. Par défaut, il s'agit généralement du port 3306.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+'DB_USERNAME' : Remplacez sa valeur par le nom d'utilisateur de votre base de données. Généralement, il s'agit de 'root'.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+'DB_PASSWORD' : Remplacez sa valeur par le mot de passe de votre base de données.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Créer une base de données
 
-## Laravel Sponsors
+Ouvrez le terminal et connectez-vous à MySQL en utilisant la commande suivante :
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+mysql -u root -p
 
-### Premium Partners
+Ensuite, créez une nouvelle base de données appelée 'ffs' en utilisant la commande suivante :
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+CREATE DATABASE ffs;
 
-## Contributing
+### Lancer le projet
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Ouvrez un terminal dans le répertoire du projet et exécutez la commande 'php artisan serve'.
 
-## Code of Conduct
+### Problèmes courants
+Si vous rencontrez des problèmes lors de l'exécution du projet, assurez-vous que :
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Votre serveur MySQL est en cours d'exécution. Les informations de la base de données dans le fichier '.env' sont correctes. La base de données 'ffs' existe dans votre MySQL.
 
-## Security Vulnerabilities
+Installer les dépendances PHP
+Avant de lancer le projet, assurez-vous d'avoir toutes les dépendances PHP installées. Vous pouvez utiliser Composer pour cela. Si vous n'avez pas Composer installé, vous pouvez le télécharger à partir de https://getcomposer.org/ et suivre les instructions d'installation pour votre système d'exploitation.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Une fois Composer installé, ouvrez un terminal dans le répertoire du projet et exécutez la commande suivante pour installer les dépendances :
 
-## License
+Copy code
+composer install
+Exécuter les migrations
+Les migrations sont des scripts PHP qui permettent de gérer la structure de la base de données. Assurez-vous que toutes les tables nécessaires sont créées en exécutant les migrations. Toujours dans le répertoire du projet, exécutez la commande suivante :
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Copy code
+php artisan migrate
+Exécuter les seeders
+Les seeders sont des scripts qui permettent de peupler la base de données avec des données initiales. Si vous utilisez des seeders fournis par les packages Breeze et Audits, exécutez-les après les migrations. Utilisez la commande suivante pour exécuter les seeders :
+
+Copy code
+php artisan db:seed
+Lancer le serveur
+Maintenant que toutes les dépendances sont installées, la base de données est configurée et peuplée, vous pouvez lancer le serveur. Exécutez la commande suivante :
+
+Copy code
+php artisan serve
+Assurez-vous de visiter l'URL indiquée dans la sortie du terminal pour accéder à votre projet dans le navigateur.
+
+Vérification
+Pour vérifier que votre projet fonctionne correctement, ouvrez votre navigateur web et accédez à l'URL fournie par la commande php artisan serve. Vous devriez voir votre application fonctionner correctement. Si vous rencontrez des problèmes, consultez les journaux d'erreurs et assurez-vous que toutes les étapes précédentes ont été suivies correctement.
+
+En suivant ces étapes supplémentaires, vous devriez être en mesure de lancer votre projet de bout en bout, en utilisant les seeders fournis par les packages Breeze et Audits pour peupler votre base de données avec des données initiales.
+
+## Étapes
+
+### Installer les dépendances PHP
+
+Avant de lancer le projet, assurez-vous d'avoir toutes les dépendances PHP installées. Vous pouvez utiliser Composer pour cela. Si vous n'avez pas Composer installé, vous pouvez le télécharger à partir de [https://getcomposer.org/](https://getcomposer.org/) et suivre les instructions d'installation pour votre système d'exploitation.
+
+Une fois Composer installé, ouvrez un terminal dans le répertoire du projet et exécutez la commande suivante pour installer les dépendances :
+
+\```
+composer install
+\```
+
+### Exécuter les migrations
+
+Les migrations sont des scripts PHP qui permettent de gérer la structure de la base de données. Assurez-vous que toutes les tables nécessaires sont créées en exécutant les migrations. Toujours dans le répertoire du projet, exécutez la commande suivante :
+
+\```php
+php artisan migrate
+\```
+
+![Exécution des migrations](chemin/vers/image_migration.png)
+
+### Exécuter les seeders
+
+Les seeders sont des scripts qui permettent de peupler la base de données avec des données initiales. Si vous utilisez des seeders fournis par les packages Breeze et Audits, exécutez-les après les migrations. Utilisez la commande suivante pour exécuter les seeders :
+
+\```php
+php artisan db:seed
+\```
+
+![Exécution des seeders](chemin/vers/image_seeder.png)
+
+### Lancer le serveur
+
+Maintenant que toutes les dépendances sont installées, la base de données est configurée et peuplée, vous pouvez lancer le serveur. Exécutez la commande suivante :
+
+\```php
+php artisan serve
+\```

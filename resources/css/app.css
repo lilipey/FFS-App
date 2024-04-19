@@ -6,14 +6,16 @@
 .alert {
     position: fixed;
     background-color: #4CAF50;
+    color: white;
+    padding: 10px;
     top: 20px;
-    right: 1%; /* Initial position off-screen */
+    right: 1%; 
     z-index: 9999;
-    transition: right 0.9s; /* Animation transition */
+    transition: right 0.9s;
 }
 
 .alert.show {
-    right: 60px; /* Final position on-screen */
+    right: 60px;
 }
 
 /* Table */
@@ -48,4 +50,13 @@ th, td {
 th, td {
     padding: 15px;
     text-align: left;
+}
+
+.btn-primary, .button-nav,.bg-blue-500 {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
 }

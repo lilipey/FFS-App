@@ -45,3 +45,8 @@
         </div>
     </form>
 </x-guest-layout>
+<style>
+    .pt-6{
+        background: rgb(31 41 55);
+    }
+</style>

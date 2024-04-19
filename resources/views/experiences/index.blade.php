@@ -38,8 +38,8 @@
                 <th>Titre</th>
                 <th>Site</th>
                 <th>Activité</th>
-                <th>Date de l'exp.</th>
-                <th>Créé le</th>
+                <th>Date de l'expédition</th>
+                <th>Créé le : </th>
                 <th>Publié</th>
                 @auth
                     <th>Supprimer</th>
@@ -49,8 +49,8 @@
         <tbody>
             @foreach ($experiences as $experience)
                 <tr class="clickable-row" data-href="{{ route('experiences.show', $experience->id) }}">
-                    <td>{{ $experience->title }}</td>
-                    <td>{{ $experience->site_name }}</td>
+                    <td style="max-width:150px">{{ $experience->title }}</td>
+                    <td style="max-width:150px">{{ $experience->site_name }}</td>
                     <td>{{ $experience->activity}}</td>
                     <td>{{ $experience->date->format('d/m/Y') }}</td>
                     <td>{{ $experience->created_at->format('d/m/Y') }}</td>

@@ -51,8 +51,8 @@
                             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                             <input type="email" id="email" name="email" value="{{ $experience->email }}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
-                        <div>
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">Mettre à jour</button>
+                        <div style="display:flex; justify-content:center; gap:10px; ">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3" >Mettre à jour</button>
                             <button type="submit" name="published" value="published" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">published</button>
                         <!-- <button type="submit" class="btn btn-primary mt-3">Mettre à jour</button> -->
                             <!-- <input type="submit" name="update" value="Publier">  -->
@@ -66,6 +66,8 @@
             </div>
         </div>
     </div>
-    <a href="javascript:history.back()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">Retourner</a>
-    <a href="{{ route('dashboard') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">Dashboard</a>
+    <div>
+        <a href="javascript:history.back()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 button-nav">Retourner</a>
+        <a href="{{ route('dashboard') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 button-nav">Dashboard</a>
+    </div>
 </x-app-layout>

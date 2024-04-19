@@ -1,3 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.alert {
+    position: fixed;
+    background-color: #4CAF50;
+    top: 20px;
+    right: 1%; /* Initial position off-screen */
+    z-index: 9999;
+    transition: right 0.9s; /* Animation transition */
+}
+
+.alert.show {
+    right: 60px; /* Final position on-screen */
+}
+form {
+   background:blue !important;
+   background-color:blue !important;
+   color: blue;
+}

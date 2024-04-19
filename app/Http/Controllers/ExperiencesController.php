@@ -8,6 +8,8 @@ use DateTime;
 
 class ExperiencesController extends Controller
 {
+
+    /**trait */
     /**
      * Display a listing of the resource.
      */
@@ -60,19 +62,20 @@ class ExperiencesController extends Controller
     // }
 
     
-    private function getData(Request $request)
+    public function index(Request $request)
     {
         $search = $request->get('search');
         $activity_select = $request->get('activity');
         $date = $request->get('date');
         $date2 = $request->get('date2');
+        
         $formatted_date = new DateTime($date);
         $formatted_date2 = new DateTime($date2);
         $date_period = $request->get('date-period');
-        $published = Experience::whereNotNull('published_at')->get();
 
         $query = Experience::query();
-        $activities = $query->pluck('activity')->unique();
+        // $published = Experience::get('published_at');
+        $activities = Experience::pluck('activity')->unique();
 
         if ($activity_select) {
             $query->where('activity', $activity_select);
@@ -87,37 +90,47 @@ class ExperiencesController extends Controller
         }
 
         if ($search) {
-            $query->where(function ($query) use ($search) {
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('site_name', 'like', "%{$search}%");
-            });
+            $query->whereAny(['title', 'site_name'], 'like', "%{$search}%");
         }
-        if ($published) {
-            $experiences = $query->whereNotNull('published_at')->orderBy('published_at', 'desc')->get();
+        if ($request->is('dashboard')) {
+            $experiences = $query->whereNull('published_at')->orderBy('published_at', 'desc')->get();
+            return view('dashboard', compact('experiences', 'activities'), [
+                'search' => $search,
+                'activity_select' => $activity_select,
+                'date_period' => $date_period,
+                'date' => $date,
+                'date2' => $date2,
+            ]);
         } else {
-            $experiences = $query->whereNull('published_at')->orderBy('created_at', 'desc')->get();
+            $experiences = $query->whereNotNull('published_at')->orderBy('created_at', 'desc')->get();
+            return view('experiences.index', compact('experiences', 'activities'), [
+                'search' => $search,
+                'activity_select' => $activity_select,
+                'date_period' => $date_period,
+                'date' => $date,
+                'date2' => $date2,
+            ]);
         }
-        return compact('experiences', 'activities', 'search', 'activity_select', 'date_period', 'date', 'date2');
     }
 
-    public function index(Request $request)
-    {
-        $data = $this->getData($request);
-        return view('experiences.index', $data);
-    }
+    // public function index(Request $request)
+    // {
+    //     $data = $this->getData($request);
+    //     return view('experiences.index', $data);
+    // }
 
-    public function indexDashboard(Request $request)
-    {
-        $data = $this->getData($request);
-        return view('dashboard', $data);
-    }
+    // public function indexDashboard(Request $request)
+    // {
+    //     $data = $this->getData($request);
+    //     return view('dashboard', $data);
+    // }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $activities = Activity::all();
-        return view('experiences.create', ['activities' => $activities ]);
+        // $activities = Activity::all();
+        return view('experiences.create');
     }
 
     /**
@@ -134,6 +147,7 @@ class ExperiencesController extends Controller
         $experience->date = $request->date;
         $experience->distance = $request->distance;
         $experience->description = $request->description;
+        $experience->activity = $request->activity;
         $experience->email = $request->email;
 
         if($request->hasFile('image')) {
@@ -147,7 +161,7 @@ class ExperiencesController extends Controller
 
         $experience->save();
 
-        return redirect()->route('experiences.index');
+        return redirect()->route('experiences.index')->with('success', 'Votre experience a été spumise.');
     }
 
     /**
@@ -155,7 +169,8 @@ class ExperiencesController extends Controller
      */
     public function show(Experience $experience)
     {
-        return view('experiences.show', ['experience' => $experience]);
+        $experience->published_at;
+        return view('experiences.show', ['experience' => $experience ]);
     }
 
     /**
@@ -197,14 +212,19 @@ class ExperiencesController extends Controller
             if ($request->has('published')) {
                 // dd(now());
                 $experience->published_at = now();
-                $show = true;
-                
+                // $show = true;
+
             }
             $experience->save();
         } else{
             dd('You cannot edit this experience');
         }   
-        return redirect('/');  
+        // return redirect('/'); 
+        if ($experience->published_at != null) {
+            return redirect()->back()->with('success', 'Ca été publié avec succès');
+        }else{
+            return redirect()->back()->with('succes', 'Ca été mis à jour avec succès');
+        }
     }
 
     /**
@@ -213,6 +233,6 @@ class ExperiencesController extends Controller
     public function destroy(Experience $experience)
     {
         $experience->delete();
-        return redirect('/');  
+        return redirect()->back()->with('success', 'Votre experience a été supprimée.');  
     }
 }

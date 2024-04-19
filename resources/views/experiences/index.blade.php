@@ -1,10 +1,16 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-200 leading-tight">
             {{ __('Profile') }}
         </h2>
     </x-slot>
+
+    @if (session('success'))
+        <div class="alert alert-success" id="success-alert">
+            {{ session('success') }}
+        </div>
+    @endif
     <form action="/experiences" method="GET" id="search-form">
             <input type="text" name="search" placeholder="Rechercher..." id="search-field" value="{{ $search }}">
             <select name="activity" id="activity-select">
@@ -28,31 +34,39 @@
     <table>
         <thead>
             <tr>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>Date de l'evenements</th>
-                <th>Numéro de téléphone</th>
-                <th>Email</th>
+                <th>Titre</th>
+                <th>Site</th>
+                <th>Activité</th>
+                <th>Date de l'exp.</th>
+                <th>Créé le</th>
+                <th>Publié</th>
+                @auth
+                    <th>Supprimer</th>
+                @endauth
             </tr>
         </thead>
         <tbody>
             @foreach ($experiences as $experience)
-                <tr>
-                    <td><a href="{{ route('experiences.show', $experience) }}">{{$experience->first_name }}</a></td>
-                        <td>{{ $experience->last_name }}</td>
-                        <td>{{ $experience->date->format('d/m/Y') }}</td>
-                        <td>{{ $experience->email }}</td> 
-                        <td>
-                        @auth
-                        <form method="POST" action="{{ route('experiences.destroy', $experience->id) }}">
+                <tr class="clickable-row" data-href="{{ route('experiences.show', $experience->id) }}">
+                    <td>{{ $experience->title }}</td>
+                    <td>{{ $experience->site_name }}</td>
+                    <td>{{ $experience->activity}}</td>
+                    <td>{{ $experience->date->format('d/m/Y') }}</td>
+                    <td>{{ $experience->created_at->format('d/m/Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($experience->published_at)->diffForHumans() }}</td>
+                    @auth
+                        @if($experience->published_at == null)
+                            <td><a href="{{route('experiences.edit', $experience->id)}}">Modifier</a></td>
+                        @endif
+                    <td>
+                        <form method="POST" action="{{ route('experiences.destroy', ['experience' => $experience->id]) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit">Supprimer le contact</button>
+                            <button type="submit">Delete</button>
                         </form>
-                        @endauth
                     </td>
+                    @endauth
                 </tr>
-                
             @endforeach
         </tbody>
     </table>
@@ -118,4 +132,28 @@
         document.getElementById('date-period').addEventListener('input', function() {
             document.getElementById('search-form').submit();
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var rows = document.querySelectorAll('.clickable-row');
+
+            rows.forEach(function(row) {
+                row.addEventListener('click', function() {
+                    window.location = row.getAttribute('data-href');
+                    console.log('clicked');
+                });
+            });
+        });
+
+            
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#success-alert").addClass('show'); // Ajouter la classe pour afficher la notification
+        setTimeout(function(){
+            $("#success-alert").fadeOut(); // Appliquer l'effet de fondu après un délai
+        }, 2000); // Durée d'affichage de la notification (en millisecondes)
+    });
 </script>

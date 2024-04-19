@@ -5,26 +5,31 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ExperiencesController;
+use App\Http\Controllers\DashboardController;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/experiences', [ExperiencesController::class,'index'])->name('experiences.index');
 Route::get('/experiences/create', [ExperiencesController::class,'create'])->name('experiences.create');
 Route::post('/experiences', [ExperiencesController::class,'store'])->name('experiences.store');
 Route::get('/experiences/{experience}', [ExperiencesController::class,'show'])->name('experiences.show');
-Route::get('/experiences/{experience}/edit', [ExperiencesController::class,'edit'])->name('experiences.edit');
-Route::put('/experiences/{experience}', [ExperiencesController::class,'update'])->name('experiences.update');
-Route::delete('/experiences/{experience}', [ExperiencesController::class,'destroy'])->name('experiences.destroy');
 
 // Route::resource('experiences', ExperiencesController::class);
 
 Route::middleware('auth')->group(function () {
+    
+    Route::get('/dashboard', [ExperiencesController::class, 'index'])->name('dashboard');
+    Route::get('dashboard/experiences/{experience}/edit', [ExperiencesController::class,'edit'])->name('experiences.edit');
+    Route::put('dashboard/experiences/{experience}', [ExperiencesController::class,'update'])->name('experiences.update');
+    Route::delete('dashboard/experiences/{experience}', [ExperiencesController::class,'destroy'])->name('experiences.destroy');
+    
+    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -32,6 +37,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/', function () {
     return view('welcome');
 }) ;
+
 // Route::get('/', function () {
 //     return view('home');
 // });

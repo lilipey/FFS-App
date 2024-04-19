@@ -58,6 +58,7 @@ class experienceController extends Controller
     public function update(Request $request, $id)
     {
         $experience = experience::find($id);
+
         // dd($experience->status);
         if ($experience->status === 3) {
             // dd('You cannot edit this experience');

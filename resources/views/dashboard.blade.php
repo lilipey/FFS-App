@@ -49,15 +49,12 @@
                 <th>Date de l'expédition</th>
                 <th>Créé le</th>
                 <th>Modifier</th>
-                <th>Dernière modification</th>
+                <!-- <th>Dernière modification</th> -->
                 <th>Supprimer</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($experiences as $experience)
-                @php
-                    $groupedAudits = $experience->audits->groupBy('user_id');
-                @endphp
                 <tr class="clickable-row" data-href="{{ route('experiences.show', $experience->id) }}">
                     <td>{{ $experience->title }}</td>
                     <td>{{ $experience->site_name }}</td>
@@ -65,18 +62,6 @@
                     <td>{{ \Carbon\Carbon::parse($experience->date)->format('d/m/Y') }}</td>
                     <td>{{ $experience->created_at->format('d/m/Y') }}</td>
                     <td><a href="{{route('experiences.edit', $experience->id)}}">Modifier</a></td>
-                    <td>
-                    @foreach ($groupedAudits as $userId => $userAudits)
-                        @php
-                            $lastAudit = $userAudits->sortByDesc('created_at')->first();
-                        @endphp
-
-                        <p class="card-text">
-                            Dernière modification par : {{ $lastAudit->user->name }} 
-                            le {{ $lastAudit->created_at }}
-                        </p>
-                    @endforeach
-                    </td>
                     <td>
                         <form method="POST" action="{{ route('experiences.destroy', ['experience' => $experience->id]) }}">
                             @csrf
@@ -88,7 +73,6 @@
             @endforeach
         </tbody>
     </table>
-    <a href="javascript:history.back()" class="btn btn-primary mt-3">Retourner au dashboard</a>
 
 </x-app-layout>
 <script>

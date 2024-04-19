@@ -53,7 +53,7 @@
                         </div>
                         <div style="display:flex; justify-content:center; gap:10px; ">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3" >Mettre à jour</button>
-                            <button type="submit" name="published" value="published" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">published</button>
+                            <button type="submit" name="published" value="published" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">Publier</button>
                         <!-- <button type="submit" class="btn btn-primary mt-3">Mettre à jour</button> -->
                             <!-- <input type="submit" name="update" value="Publier">  -->
                             <!-- <a href="{{ url('experienceInfo/' . $experience->id) }}">Annuler</a>  -->

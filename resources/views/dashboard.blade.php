@@ -13,7 +13,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
+                    {{ __("Bienvenue "). Auth::user()->name }}
                 </div>
             </div>
         </div>
@@ -72,40 +72,6 @@
         </tbody>
     </table>
 </x-app-layout>
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    table, th, td {
-        border: 1px solid black;
-    }  
-    th, td {
-        padding: 15px;
-        text-align: left;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-    tr:nth-child(odd) {
-        background-color: #ffffff;
-    }
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-    th, td {
-        border: 1px solid black;
-    }
-    th, td {
-        padding: 15px;
-        text-align: left;
-    }
-
-</style>
 <script>
         var searchField = document.getElementById('search-field');
 
@@ -144,3 +110,4 @@
             });
         });
 </script>
+

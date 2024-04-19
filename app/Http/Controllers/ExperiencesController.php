@@ -13,53 +13,6 @@ class ExperiencesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    // public function index(Request $request)
-    // {
-    //     // $experiences = Experience::all();
-    //     // $experience = Experience::whereNotNull('published_at')->get();
-    //     // return view('experiences.index', ['experiences' => $experiences]);
-        
-
-    //     $search = $request->get('search');
-    //     $activity_select = $request->get('activity');
-    //     $date = $request->get('date');
-    //     $date2 = $request->get('date2');
-    //     $formatted_date = new DateTime($date);
-    //     $formatted_date2 = new DateTime($date2);
-    //     $date_period = $request->get('date-period');
-
-    //     $query = Experience::query();
-    //     $activities = $query->pluck('activity')->unique();
-
-    //     if ($activity_select) {
-    //         $query->where('activity', $activity_select);
-    //     }
-        
-    //     if ($date_period == 'before' && $date != null) {
-    //         $query->where('date', '<', $formatted_date);
-    //     } elseif ($date_period == 'after' && $date != null) {
-    //         $query->where('date', '>', $formatted_date);
-    //     } elseif ($date_period == 'between' && $date != null && $date2 != null) {
-    //         $query->whereBetween('date', [$formatted_date, $formatted_date2]);
-    //     }
-
-    //     if ($search) {
-    //         $query->where(function ($query) use ($search) {
-    //             $query->where('title', 'like', "%{$search}%")
-    //                 ->orWhere('site_name', 'like', "%{$search}%");
-    //         });
-    //     }
-
-    //     $experiences = $query->whereNotNull('published_at')->orderBy('published_at', 'desc')->get();
-    //     // $activities = $query->pluck('activity')->unique();
-    //     return view('experiences.index', compact('experiences', 'activities'), [
-    //         'search' => $search,
-    //         'activity_select' => $activity_select,
-    //         'date_period' => $date_period,
-    //         'date' => $date,
-    //         'date2' => $date2,
-    //     ]);
-    // }
 
     
     public function index(Request $request)
@@ -138,6 +91,29 @@ class ExperiencesController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'site_name' => 'required',
+            'title' => 'required',
+            'place' => 'required',
+            'date' => 'required',
+            'distance' => 'required',
+            'description' => 'required',
+            'activity' => 'required',
+            'email' => 'required',
+        ], [
+            'first_name.required' => 'Le prénom est requis.',
+            'last_name.required' => 'Le nom est requis.',
+            'site_name.required' => 'Le nom du site est requis.',
+            'title.required' => 'Le titre est requis.',
+            'place.required' => 'Le lieu est requis.',
+            'date.required' => 'La date est requise.',
+            'distance.required' => 'La distance est requise.',
+            'description.required' => 'La description est requise.',
+            'activity.required' => 'L\'activité est requise.',
+            'email.required' => 'L\'email est requis.',
+        ]);
         $experience= new Experience;
         $experience->first_name = $request->first_name;
         $experience->last_name = $request->last_name;
@@ -161,7 +137,7 @@ class ExperiencesController extends Controller
 
         $experience->save();
 
-        return redirect()->route('experiences.index')->with('success', 'Votre experience a été spumise.');
+        return redirect()->route('experiences.index')->with('success', 'Votre experience a été soumise.');
     }
 
     /**
@@ -192,6 +168,27 @@ class ExperiencesController extends Controller
         //     // dd('You cannot edit this experience');
         //     return redirect('/');
         // }
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'site_name' => 'required',
+            'title' => 'required',
+            'place' => 'required',
+            'date' => 'required',
+            'distance' => 'required',
+            'description' => 'required',
+            'email' => 'required',
+        ], [
+            'first_name.required' => 'Le prénom est requis.',
+            'last_name.required' => 'Le nom est requis.',
+            'site_name.required' => 'Le nom du site est requis.',
+            'title.required' => 'Le titre est requis.',
+            'place.required' => 'Le lieu est requis.',
+            'date.required' => 'La date est requise.',
+            'distance.required' => 'La distance est requise.',
+            'description.required' => 'La description est requise.',
+            'email.required' => 'L\'email est requis.',
+        ]);
         if ($experience->published_at === null){
             $experience->first_name = $request->first_name;
             $experience->last_name = $request->last_name;
@@ -221,9 +218,9 @@ class ExperiencesController extends Controller
         }   
         // return redirect('/'); 
         if ($experience->published_at != null) {
-            return redirect()->back()->with('success', 'Ca été publié avec succès');
+            return redirect()->route('dashboard')->with('success', 'Ca été publié avec succès');
         }else{
-            return redirect()->back()->with('succes', 'Ca été mis à jour avec succès');
+            return redirect()->route('dashboard')->with('success', 'Ca été mis à jour avec succès');
         }
     }
 

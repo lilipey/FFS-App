@@ -7,10 +7,11 @@
     </x-slot>
 
     @if (session('success'))
-        <div class="alert alert-success" id="success-alert">
+        <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
+
     <form action="/experiences" method="GET" id="search-form">
             <input type="text" name="search" placeholder="Rechercher..." id="search-field" value="{{ $search }}">
             <select name="activity" id="activity-select">
@@ -72,37 +73,7 @@
     </table>
 </x-app-layout>
 <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    table, th, td {
-        border: 1px solid black;
-    }  
-    th, td {
-        padding: 15px;
-        text-align: left;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-    tr:nth-child(odd) {
-        background-color: #ffffff;
-    }
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-    th, td {
-        border: 1px solid black;
-    }
-    th, td {
-        padding: 15px;
-        text-align: left;
-    }
+   
 
 </style>
 <script>
@@ -143,17 +114,5 @@
                 });
             });
         });
-
-            
-
-
 </script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#success-alert").addClass('show'); // Ajouter la classe pour afficher la notification
-        setTimeout(function(){
-            $("#success-alert").fadeOut(); // Appliquer l'effet de fondu après un délai
-        }, 2000); // Durée d'affichage de la notification (en millisecondes)
-    });
-</script>
+

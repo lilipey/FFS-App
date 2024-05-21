@@ -102,7 +102,8 @@ class ExperiencesController extends Controller
             'distance' => 'required',
             'description' => 'required',
             'activity' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
+            'image' => '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'first_name.required' => 'Le prénom est requis.',
             'last_name.required' => 'Le nom est requis.',
@@ -162,6 +163,7 @@ class ExperiencesController extends Controller
      */
     public function show(Experience $experience)
     {
+
         $audits = $experience->audits;
         $experience->published_at;
         
@@ -187,12 +189,14 @@ class ExperiencesController extends Controller
         //     // dd('You cannot edit this experience');
         //     return redirect('/');
         // }
+
         if ($request->has('published') &&  $request->is("dashboard/experiences/{$experience->id}") && $experience->published_at === null) {
             $experience->published_at = now();
 
             $experience->save();
             return redirect()->route('dashboard')->with('success',  "L'expérience été publiés avec succès");
         }
+        // $experience = Experience::find($experience->id);
         $audits = $experience->audits;
         $request->validate([
             'first_name' => 'required',
@@ -225,21 +229,12 @@ class ExperiencesController extends Controller
             $experience->distance = $request->distance;
             $experience->description = $request->description;
             $experience->email = $request->email;
-            // if($request->hasFile('image')) {
-            //     $image = $request->file('image');
-            //     $filename = time() . '.' . $image->getClientOriginalExtension();
-            //     $location = public_path('images/' . $filename);
-            //     Image::make($image)->resize(800, 400)->save($location);
-            //     $experience->image = $filename;
-            // } 
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('images', 'public');
                 $experience->image = $imagePath;
             }
-            if ($request->has('published')) {
-                // dd(now());
+            if ($request->input('published') == 'published') {
                 $experience->published_at = now();
-                // $show = true;
             }
             $experience->save();
         } else{

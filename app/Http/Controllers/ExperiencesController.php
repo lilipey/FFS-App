@@ -187,7 +187,12 @@ class ExperiencesController extends Controller
         //     // dd('You cannot edit this experience');
         //     return redirect('/');
         // }
-        $experience = Experience::find($experience->id);
+        if ($request->has('published') &&  $request->is("dashboard/experiences/{$experience->id}") && $experience->published_at === null) {
+            $experience->published_at = now();
+
+            $experience->save();
+            return redirect()->route('dashboard')->with('success',  "L'expérience été publiés avec succès");
+        }
         $audits = $experience->audits;
         $request->validate([
             'first_name' => 'required',

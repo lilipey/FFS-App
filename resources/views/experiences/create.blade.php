@@ -9,16 +9,6 @@
             {{ session('success') }}
         </div>
     @endif
-
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
     <form method="POST" action="{{route('experiences.store') }}" enctype="multipart/form-data" class="space-y-4">
         @csrf
         <div class="container ">
@@ -28,17 +18,18 @@
                     <h2 class="mb-2">Vos coordonnées</h2>
                             <div class="space-y-2">
                                 <label for="first_name">Prénom</label>
-                                <input type="text" id="first_name" name="first_name" placeholder="Entrez votre prénom">
+                                <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="Entrez votre prénom">
+                                <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
                             </div>
                             <div class="space-y-2">
-
                                 <label for="last_name">Nom</label>
-                                <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom">
+                                <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom" value="{{ old('last_name') }}>
+                                <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                             </div>
                             <div class="space-y-2">
-
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" placeholder="Entrez votre email">
+                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
                             </div>
                     </div>
                 </div>
@@ -52,23 +43,28 @@
                                 <div class="space-y-2">
                                     <label for="title">Titre</label>
                                     <input type="text" id="title" name="title" placeholder="Entrez le titre de votre expérience">
+                                    <x-input-error :messages="$errors->get('title')" class="mt-2" />
                                 </div>
                                 <div class="space-y-2">
                                     <label for="site_name">Nom du site</label>
                                     <input type="text" id="site_name" name="site_name" placeholder="Entrez le nom du site">
+                                    <x-input-error :messages="$errors->get('site_name')" class="mt-2" />
                                 </div>
                                 <div class="space-y-2">
                                     <label for="place">Lieu</label>
                                     <input type="text" id="place" name="place" placeholder="Entrez le lieu de l'expérience">
+                                    <x-input-error :messages="$errors->get('place')" class="mt-2" />
                                 </div>
                                 <div class="space-y-2">
                                     <label for="date">Date</label>
                                     <input type="date" id="date" name="date">
-                                </div>
+                                    <x-input-error :messages="$errors->get('date')" class="mt-2" />
 
+                                </div>
                                 <div class="space-y-2">
                                 <label for="distance">Altitude</label>
                                 <input type="number" id="distance" name="distance" placeholder="Entrez l'altitude">
+                                <x-input-error :messages="$errors->get('distance')" class="mt-2" />
                                 </div>
                     </div>
                 </div>
@@ -81,10 +77,11 @@
                             <div class="space-y-2">
                                 <label for="description">Description</label>
                                 <textarea id="description" name="description" placeholder="Décrivez votre expérience"></textarea>
-
+                                <x-input-error :messages="$errors->get('description')" class="mt-2" />
                                 <div>
                                     <label for="image">Image</label>
                                     <input type="file" id="image" name="image">
+                                    <x-input-error :messages="$errors->get('image')" class="mt-2" />
                                 </div>
                                 
 
@@ -94,6 +91,7 @@
                                     <option value="escalade">Canyoning</option>
                                     <option value="randonnee">Exploration sous-marine</option>
                                 </select>
+                                <x-input-error :messages="$errors->get('activity')" class="mt-2" />
                             </div>
                         
                     </div>

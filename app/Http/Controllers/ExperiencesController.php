@@ -163,10 +163,8 @@ class ExperiencesController extends Controller
      */
     public function show(Experience $experience)
     {
-        if (!$experience->published_at) {
-            if (auth()->guest() || auth()->user()->cannot('view', $experience)) {
-                abort(403);
-            }
+        if (!$experience->published_at && auth()->guest()) {
+            abort(403);
         }
         $audits = $experience->audits;
         $experience->published_at;
@@ -193,7 +191,6 @@ class ExperiencesController extends Controller
         //     // dd('You cannot edit this experience');
         //     return redirect('/');
         // }
-
         if ($request->has('published') &&  $request->is("dashboard/experiences/{$experience->id}") && $experience->published_at === null) {
             $experience->published_at = now();
 

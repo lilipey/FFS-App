@@ -163,7 +163,11 @@ class ExperiencesController extends Controller
      */
     public function show(Experience $experience)
     {
-
+        if (!$experience->published_at) {
+            if (auth()->guest() || auth()->user()->cannot('view', $experience)) {
+                abort(403);
+            }
+        }
         $audits = $experience->audits;
         $experience->published_at;
         

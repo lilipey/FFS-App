@@ -271,4 +271,14 @@ class ExperiencesController extends Controller
         $experience->delete();
         return redirect()->back()->with('success', 'Votre experience a été supprimée.');  
     }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+        $experiences = Experience::where('title', 'like', '%' . $search . '%')
+        ->orWhere('site_name', 'like', '%' . $search . '%')
+        ->orderBy('published_at', 'desc')
+        ->get();
+        return view('experiences.search-results', ['results' => $experiences, 'search' => $search]);
+    }
 }

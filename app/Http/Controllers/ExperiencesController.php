@@ -14,8 +14,7 @@ class ExperiencesController extends Controller
     /**
      * Display a listing of the resource.
      */
-
-    
+ 
     public function index(Request $request)
     {
         $search = $request->get('search');
@@ -182,12 +181,9 @@ class ExperiencesController extends Controller
         }
         return view('experiences.edit', ['experience' => $experience]);
     }
-
     /**
-     * Update the specified resource in storage.
+     * publish the specified resource in storage.
      */
-
-
      public function publish(Request $request, Experience $experience)
     {
         if ( $experience->published_at === null) {
@@ -197,7 +193,9 @@ class ExperiencesController extends Controller
         }
         return redirect()->route('dashboard');
     }
-
+     /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Experience $experience)
     {
         // $request->dd();
@@ -274,7 +272,6 @@ class ExperiencesController extends Controller
             return redirect()->route('dashboard');
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

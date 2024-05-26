@@ -91,11 +91,11 @@
                         <img src="{{ asset('storage/' . $experience->image) }}" alt="" style="width:200px; margin: 20px;">
                     @endif
                     @if ($experience->published_at) 
-                                <p class="card-text"><strong>Publié le:</strong> <span
+                        <p class="card-text"><strong>Publié le:</strong> <span
                                         class="text-muted">{{ \Carbon\Carbon::parse($experience->published_at)->format('d/m/Y') }}</span></p>
-                            @else
-                            <p class="card-text"><strong>Pas encore publié</strong> </p>
-                            @endif
+                    @else
+                        <p class="card-text"><strong>Pas encore publié</strong> </p>
+                    @endif
                 </div>
             </div>
             <div class="action-container">

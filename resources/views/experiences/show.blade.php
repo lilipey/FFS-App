@@ -69,13 +69,19 @@
                     <img class="img-fluid" src="{{ asset('images/' . $experience->image) }}" alt="Image">
                 @endif -->
             </div>
-        </div>
-    </div>
-    <div style="display:flex; width:100%; justify-content:center;">
-        <a href="javascript:history.back()" class="btn btn-primary mt-3 button-nav" style="margin:20px">Retourner sur la page précédente</a>
-        @auth
-            <a href="{{ route('experiences.edit', $experience->id) }}" class="btn btn-primary mt-3 button-nav" style="margin:20px">Modifier l'expérience</a>
-        @endauth
+                @if (!$experience->published_at && Auth::user())
+                    <a href="{{ route('experiences.edit', $experience->id) }}" class="button">Modifier l'expérience</a>
+                    <form method="POST" action="{{ route('experiences.publish', $experience->id) }}">
+                        @csrf
+                        <button type="submit" class="button" value="published">Publier</button>
+                    </form>
+                @endif
+                <form method="POST" action="{{ route('experiences.destroy', ['experience' => $experience->id]) }}"
+                    style="margin:0;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Supprimer </button>
+                </form>
 
     </div>
     }

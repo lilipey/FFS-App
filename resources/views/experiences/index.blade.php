@@ -2,25 +2,34 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-200 leading-tight">
-            {{ __('Profile') }}
+            {{ __('Les retours d\'expériences') }}
         </h2>
     </x-slot>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    <h1> Les retours d'expériences</h1>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
+    <h2>Filtrer :</h2>
     <form action="/experiences" method="GET" id="search-form">
-            <input type="text" name="search" placeholder="Rechercher..." id="search-field" value="{{ $search }}">
+        <div>
+            <label for="search">Par recherche</label>
+            <input type="text" name="search" placeholder="Titre..." id="search-field" value="{{ $search }}">
+                <!-- <input type="text" name="search" id="search" class="form-control" placeholder="Titre..." /> -->
+        </div>
+        <div>
+            <label for="activity-select">Par activité</label>
             <select name="activity" id="activity-select">
                 <option value="">Toutes les activités</option>
                 @foreach ($activities as $activity)
                     <option value="{{ $activity }}" <?php if ($activity_select && $activity_select == $activity) {echo 'selected';} ?>>{{ $activity }}</option>
                 @endforeach
             </select>
+        </div>
+        <div>
+            <label for="date">Par date</label>
             <div>
                 <select name="date-period" id="date-period">
                     <option value="before" <?php if ($date_period && $date_period == 'before') {echo 'selected';} ?>>Avant</option>
@@ -31,11 +40,11 @@
                 <input type="date" name="date2" value="{{ $date2 }}" style="<?php if ($date_period != 'between') {echo 'display: none;';} ?>" id="date2">
                 <input type="submit" value="Filtrer">
             </div>
-            <div class= "button-container">
-                <a href="/experiences" class="button">Réinitialiser</a>
-            </div>
-           
+        </div>
+        <a href="/experiences" class="button">Réinitialiser</a>
+                
     </form>
+
     <table>
         <thead>
             <tr>
@@ -45,37 +54,59 @@
                 <th>Date de l'expédition</th>
                 <th>Créé le : </th>
                 <th>Publié</th>
-                @auth
-                    <th>Supprimer</th>
-                @endauth
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach ($experiences as $experience)
-                <tr class="clickable-row" data-href="{{ route('experiences.show', $experience->id) }}">
+                <tr class="clickable-row">
                     <td style="max-width:150px">{{ $experience->title }}</td>
                     <td style="max-width:150px">{{ $experience->site_name }}</td>
-                    <td>{{ $experience->activity}}</td>
+                    <td>{{ $experience->activity == "speleologie" ? "Spéléologie" : ($experience->activity == "canyoning" ? "Canyoning" : ($experience->activity == "exploration" ? "Exploration sous-marine" : "Non défini")) }}</td>
                     <td>{{ $experience->date->format('d/m/Y') }}</td>
                     <td>{{ $experience->created_at->format('d/m/Y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($experience->published_at)->diffForHumans() }}</td>
-                    @auth
-                        @if($experience->published_at == null)
-                            <td><a href="{{route('experiences.edit', $experience->id)}}">Modifier</a></td>
-                        @endif
                     <td>
+                    <a href="{{ route('experiences.show', $experience->id) }}" class="button">Voir</a>
+                    @auth
+
                         <form method="POST" action="{{ route('experiences.destroy', ['experience' => $experience->id]) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit">Delete</button>
+                            <button type="submit" class="secondary-button">Supprimer</button>
                         </form>
+                        @endauth
                     </td>
-                    @endauth
                 </tr>
             @endforeach
         </tbody>
     </table>
 </x-app-layout>
+<style>
+#search-form {
+    display: flex;
+    gap: 100px;
+    margin-bottom: 20px;
+    align-items: end;
+}
+#search-form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+@auth
+tr td:last-child {
+    display: flex;
+}
+@endauth
+
+
+a[href="/experiences"] {
+    margin-bottom: 5px;
+}
+
+</style>
 <script>
         var searchField = document.getElementById('search-field');
 
@@ -103,16 +134,23 @@
         document.getElementById('date-period').addEventListener('input', function() {
             document.getElementById('search-form').submit();
         });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var rows = document.querySelectorAll('.clickable-row');
-
-            rows.forEach(function(row) {
-                row.addEventListener('click', function() {
-                    window.location = row.getAttribute('data-href');
-                    console.log('clicked');
-                });
+        
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () { 
+        console.log('ready');
+        $('#search').on('keyup', function() {
+            var query = $(this).val();
+            console.log(query);
+            $.ajax({
+                url: "{{ route('experiences.search') }}",
+                type: "GET",
+                data: {'search': query},
+                success: function(data) {
+                    $('tbody').html(data);
+                }
             });
         });
+    });
 </script>
-

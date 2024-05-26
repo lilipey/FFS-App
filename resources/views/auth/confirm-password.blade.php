@@ -1,4 +1,9 @@
 <x-guest-layout>
+<x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-200 leading-tight" id="exp-title">
+            {{ __('Confirmer le mot de passe') }}
+        </h2>
+    </x-slot>
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
         {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
     </div>
@@ -8,7 +13,7 @@
 
         <!-- Password -->
         <div>
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Mot de passe')" />
 
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
@@ -20,7 +25,7 @@
 
         <div class="flex justify-end mt-4">
             <x-primary-button>
-                {{ __('Confirm') }}
+                {{ __('Confirmer') }}
             </x-primary-button>
         </div>
     </form>

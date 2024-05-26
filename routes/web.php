@@ -18,7 +18,11 @@ use App\Http\Controllers\DashboardController;
 Route::get('/experiences', [ExperiencesController::class,'index'])->name('experiences.index');
 Route::get('/experiences/create', [ExperiencesController::class,'create'])->name('experiences.create');
 Route::post('/experiences', [ExperiencesController::class,'store'])->name('experiences.store');
+Route::get('/experiences/search', [ExperiencesController::class,'search'])->name('experiences.search');
 Route::get('/experiences/{experience}', [ExperiencesController::class,'show'])->name('experiences.show');
+
+
+
 
 // Route::resource('experiences', ExperiencesController::class);
 
@@ -26,6 +30,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/dashboard', [ExperiencesController::class, 'index'])->name('dashboard');
     Route::get('dashboard/experiences/{experience}/edit', [ExperiencesController::class,'edit'])->name('experiences.edit');
+    Route::post('dashboard/experiences/{experience}',[ExperiencesController::class,'publish'])->name('experiences.publish');
     Route::put('dashboard/experiences/{experience}', [ExperiencesController::class,'update'])->name('experiences.update');
     Route::delete('dashboard/experiences/{experience}', [ExperiencesController::class,'destroy'])->name('experiences.destroy');
     

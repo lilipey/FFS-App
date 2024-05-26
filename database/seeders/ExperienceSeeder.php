@@ -64,7 +64,7 @@ class ExperienceSeeder extends Seeder
                 'image' => 'https://placehold.co/400',
                 'activity'=>'la',
                 'last_modif' => 'p1err0t',
-                'published_at' => ,
+                'published_at' => now(),
             ],
         ];
 

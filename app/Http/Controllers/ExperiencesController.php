@@ -164,7 +164,7 @@ class ExperiencesController extends Controller
     public function show(Experience $experience)
     {
         if (!$experience->published_at && auth()->guest()) {
-            abort(403);
+            return redirect(route('experiences.index'));
         }
         $audits = $experience->audits;
         $experience->published_at;
@@ -186,6 +186,8 @@ class ExperiencesController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+
      public function publish(Request $request, Experience $experience)
     {
         if ( $experience->published_at === null) {
@@ -195,6 +197,7 @@ class ExperiencesController extends Controller
         }
         return redirect()->route('dashboard');
     }
+
     public function update(Request $request, Experience $experience)
     {
         // $request->dd();
@@ -217,10 +220,12 @@ class ExperiencesController extends Controller
             'site_name' => 'required',
             'title' => 'required',
             'place' => 'required',
-            'date' => 'required',
+            'date' => 'required|date|before:now',
             'distance' => 'required',
             'description' => 'required',
-            'email' => 'required',
+            'activity' => 'required',
+            'email' => 'required|email',
+            'image' => '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'first_name.required' => 'Le prénom est requis.',
             'last_name.required' => 'Le nom est requis.',
@@ -228,9 +233,13 @@ class ExperiencesController extends Controller
             'title.required' => 'Le titre est requis.',
             'place.required' => 'Le lieu est requis.',
             'date.required' => 'La date est requise.',
+            'date.before' => 'La date doit être antérieure à la date actuelle.',
             'distance.required' => 'La distance est requise.',
             'description.required' => 'La description est requise.',
+            'activity.required' => 'L\'activité est requise.',
             'email.required' => 'L\'email est requis.',
+            'email.email' => 'L\'email doit être une adresse email valide.',
+        
         ]);
         if ($experience->published_at === null){
             $experience->first_name = $request->first_name;
@@ -266,6 +275,7 @@ class ExperiencesController extends Controller
         }
     }
 
+
     /**
      * Remove the specified resource from storage.
      */
@@ -285,3 +295,4 @@ class ExperiencesController extends Controller
         return view('experiences.search-results', ['results' => $experiences, 'search' => $search]);
     }
 }
+

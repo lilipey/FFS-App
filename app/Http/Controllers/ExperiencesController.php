@@ -183,6 +183,15 @@ class ExperiencesController extends Controller
     /**
      * Update the specified resource in storage.
      */
+     public function publish(Request $request, Experience $experience)
+    {
+        if ( $experience->published_at === null) {
+            $experience->published_at = now();
+            $experience->save();
+            return redirect()->route('dashboard')->with('success',  "L'expérience été publiés avec succès");
+        }
+        return redirect()->route('dashboard');
+    }
     public function update(Request $request, Experience $experience)
     {
         // $request->dd();

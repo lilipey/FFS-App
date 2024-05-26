@@ -177,6 +177,9 @@ class ExperiencesController extends Controller
      */
     public function edit(Experience $experience)
     {
+        if ($experience->published_at != null) {
+            return redirect(route('experiences.index'));
+        }
         return view('experiences.edit', ['experience' => $experience]);
     }
 

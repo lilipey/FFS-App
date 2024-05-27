@@ -13,7 +13,7 @@
     </div>
 
     <h2>Filtrer :</h2>
-    <form action="/experiences" method="GET" id="search-form">
+    <form action="/dashboard" method="GET" id="search-form">
         <div>
             <label for="search">Par recherche</label>
             <input type="text" name="search" placeholder="Titre..." id="search-field" value="{{ $search }}">

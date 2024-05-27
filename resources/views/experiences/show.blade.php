@@ -45,11 +45,12 @@
                                                                         <strong>Dernière modification par :</strong>
                                                                         <span class="text-primary">{{ $userLastAudit->user->name }}</span>
                                                                         <span class="text-muted">le {{ $userLastAudit->created_at->format('d/m/Y') }} à
-                                                                            {{ $userLastAudit->created_at->format('h:m:s') }}</span>
+                                                                            {{ $userLastAudit->created_at->format('H:i:s') }}</span>
                                                                     @else
                                                                         <strong>Modification par :</strong>
                                                                         <span class="text-primary">{{ $userLastAudit->user->name }}</span>
-                                                                        <span class="text-muted">le {{ $userLastAudit->created_at }}</span>
+                                                                        <span class="text-muted">le {{ $userLastAudit->created_at->format('d/m/Y') }} à
+                                                                            {{ $userLastAudit->created_at->format('H:i:s') }}</span>
                                                                     @endif
                                                                 </div>
                                                             @endif
@@ -104,7 +105,7 @@
 
                 @if (!$experience->published_at && Auth::user())
                     <a href="{{ route('experiences.edit', $experience->id) }}" class="button">Modifier l'expérience</a>
-                    <form method="POST" action="{{ route('experiences.publish', $experience->id) }}">
+                    <form method="POST" action="{{ route('experiences.publish', $experience->id) }}"style="margin:0;">
                         @csrf
                         <button type="submit" class="button" value="published">Publier</button>
                     </form>

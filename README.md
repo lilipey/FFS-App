@@ -38,10 +38,7 @@ Si vous n'avez pas npm, vous pouvez le télécharger à partir de [https://nodej
 ### 9. Compilation des assets
 Dans le même terminal, exécutez la commande `npm run dev` pour compiler vos assets.
 
-### 10. Exécution des migrations
-Les migrations sont des scripts PHP qui gèrent la structure de la base de données. Exécutez les
-
-### 11. Lancement du serveur
+### 10. Lancement du serveur
 Une fois que toutes les dépendances sont installées et que la base de données est configurée et peuplée, lancez le serveur avec la commande `php artisan serve`.
 
 ## Vérification

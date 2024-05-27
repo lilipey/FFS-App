@@ -20,7 +20,8 @@ class ExperienceSeeder extends Seeder
     public function run()
     {
         // Exemple de données pour les rapports de spéléologies
-        $experiences = [
+        experiences = [
+            // ...
             [
                 'email' => 'john@example.com',
                 'first_name' => 'John',
@@ -30,7 +31,7 @@ class ExperienceSeeder extends Seeder
                 'place' => 'Brazil',
                 'date' => '2023-07-15',
                 'distance' => 500, 
-                'description' => 'This was an exciting exploration journey into the depths of Caverna de São Tomé. We discovered several new chambers and documented unique geological formations.',
+                'description' => 'Lors de cette exploration passionnante de la Caverna de São Tomé, nous avons rencontré un défi majeur : une partie de la grotte était inondée et nous avons dû utiliser des équipements de plongée pour continuer.',
                 'image' => 'https://placehold.co/400',
                 'activity'=>'spéléologie',
                 'last_modif' => '',
@@ -45,24 +46,9 @@ class ExperienceSeeder extends Seeder
                 'place' => 'United States',
                 'date' => '2023-09-20',
                 'distance' => 1000, 
-                'description' => 'Our team conducted a comprehensive survey of the Mammoth Cave system, mapping out passages and measuring distances. The data collected will contribute to our understanding of this vast cave network.',
+                'description' => 'Lors de notre enquête exhaustive du système de la Mammoth Cave, nous avons rencontré un problème : une section de la grotte s'était effondrée, bloquant l'accès à certaines parties. Nous avons dû trouver un autre chemin pour continuer notre enquête.',
                 'image' => 'https://placehold.co/400',
                 'activity'=>'spéléologie',
-                'last_modif' => 'p1err0t',
-                'published_at' => now(),
-            ],
-            [
-                'email' => 'jane@example.com',
-                'first_name' => 'Jane',
-                'last_name' => 'Smith',
-                'site_name' => 'Mammoth Cave',
-                'title' => 'Survey of Mammoth Cave System',
-                'place' => 'United States',
-                'date' => '2023-09-20',
-                'distance' => 1000, 
-                'description' => 'Our team conducted a comprehensive survey of the Mammoth Cave system, mapping out passages and measuring distances. The data collected will contribute to our understanding of this vast cave network.',
-                'image' => 'https://placehold.co/400',
-                'activity'=>'la',
                 'last_modif' => 'p1err0t',
                 'published_at' => now(),
             ],

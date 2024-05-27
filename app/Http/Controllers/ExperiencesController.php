@@ -66,17 +66,6 @@ class ExperiencesController extends Controller
         }
     }
 
-    // public function index(Request $request)
-    // {
-    //     $data = $this->getData($request);
-    //     return view('experiences.index', $data);
-    // }
-
-    // public function indexDashboard(Request $request)
-    // {
-    //     $data = $this->getData($request);
-    //     return view('dashboard', $data);
-    // }
     /**
      * Show the form for creating a new resource.
      */
@@ -130,14 +119,6 @@ class ExperiencesController extends Controller
         $experience->activity = $request->activity;
         $experience->email = $request->email;
 
-        // if($request->hasFile('image')) {
-        //     $image = $request->file('image');
-        //     $filename = time() . '.' . $image->getClientOriginalExtension();
-        //     $location = public_path('images/' . $filename);
-        //     Image::make($image)->resize(800, 400)->save($location);
-
-        //     $experience->image = $filename;
-        // }
         if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('images', 'public');
                 $experience->image = $imagePath;
@@ -198,17 +179,11 @@ class ExperiencesController extends Controller
      */
     public function update(Request $request, Experience $experience)
     {
-        // $request->dd();
-        // dd($experience->status);
-        // if ($experience->status !=null) {
-        //     // dd('You cannot edit this experience');
-        //     return redirect('/');
-        // }
         if ($request->has('published') &&  $request->is("dashboard/experiences/{$experience->id}") && $experience->published_at === null) {
             $experience->published_at = now();
 
             $experience->save();
-            return redirect()->route('dashboard')->with('success',  "L'expérience été publiés avec succès");
+            return redirect()->route('dashboard')->with('success',  "L'expérience été publiée avec succès");
         }
         // $experience = Experience::find($experience->id);
         $audits = $experience->audits;
@@ -280,16 +255,6 @@ class ExperiencesController extends Controller
     {
         $experience->delete();
         return redirect()->back()->with('success', 'Votre experience a été supprimée.');  
-    }
-
-    public function search(Request $request)
-    {
-        $search = $request->get('search');
-        $experiences = Experience::where('title', 'like', '%' . $search . '%')
-        ->orWhere('site_name', 'like', '%' . $search . '%')
-        ->orderBy('published_at', 'desc')
-        ->get();
-        return view('experiences.search-results', ['results' => $experiences, 'search' => $search]);
     }
 }
 

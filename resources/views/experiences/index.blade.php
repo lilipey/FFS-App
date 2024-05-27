@@ -17,7 +17,6 @@
         <div>
             <label for="search">Par recherche</label>
             <input type="text" name="search" placeholder="Titre..." id="search-field" value="{{ $search }}">
-                <!-- <input type="text" name="search" id="search" class="form-control" placeholder="Titre..." /> -->
         </div>
         <div>
             <label for="activity-select">Par activité</label>
@@ -129,28 +128,10 @@ a[href="/experiences"] {
 
         document.getElementById('activity-select').addEventListener('input', function() {
             document.getElementById('search-form').submit();
-        });
+        });*/
 
         document.getElementById('date-period').addEventListener('input', function() {
             document.getElementById('search-form').submit();
         });
         
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () { 
-        console.log('ready');
-        $('#search').on('keyup', function() {
-            var query = $(this).val();
-            console.log(query);
-            $.ajax({
-                url: "{{ route('experiences.search') }}",
-                type: "GET",
-                data: {'search': query},
-                success: function(data) {
-                    $('tbody').html(data);
-                }
-            });
-        });
-    });
 </script>

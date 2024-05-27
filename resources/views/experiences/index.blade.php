@@ -128,7 +128,7 @@ a[href="/experiences"] {
 
         document.getElementById('activity-select').addEventListener('input', function() {
             document.getElementById('search-form').submit();
-        });*/
+        });
 
         document.getElementById('date-period').addEventListener('input', function() {
             document.getElementById('search-form').submit();

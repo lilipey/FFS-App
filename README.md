@@ -17,7 +17,7 @@ Ouvrez le fichier '.env' et modifiez les paramètres suivants avec vos informati
 - 'DB_PASSWORD' : Indiquez le mot de passe de votre base de données.
 
 ### 3. Création de la base de données
-Ouvrez le terminal et connectez-vous à MySQL avec la commande `mysql -u root -p`. Créez ensuite une nouvelle base de données nommée 'ffs' avec la commande `CREATE DATABASE ffs;`.
+Ouvrez le terminal et connectez-vous à MySQL avec la commande `mysql -u root -p`. Créez ensuite une nouvelle base de données nommée 'ffs_app' avec la commande `CREATE DATABASE ffs_app;`.
 
 ### 4. Installation des dépendances PHP
 Assurez-vous d'avoir toutes les dépendances PHP nécessaires. Si vous n'avez pas Composer, téléchargez-le à partir de [https://getcomposer.org/](https://getcomposer.org/). Une fois installé, ouvrez un terminal dans le répertoire du projet et exécutez `composer install`.
@@ -25,10 +25,14 @@ Assurez-vous d'avoir toutes les dépendances PHP nécessaires. Si vous n'avez pa
 ### 5. Exécution des migrations
 Les migrations sont des scripts PHP qui gèrent la structure de la base de données. Exécutez les migrations avec la commande `php artisan migrate`.
 
+
 ### 6. Exécution des seeders
 Les seeders sont des scripts qui peuplent la base de données avec des données initiales. Si vous utilisez des seeders fournis par les packages Breeze et Audits, exécutez-les après les migrations avec la commande `php artisan db:seed`.
 
-### 7. Lancement du serveur
+### 7. Création d'un lien symbolique pour le stockage
+Laravel utilise le répertoire `storage` pour stocker divers fichiers, comme les images téléchargées. Pour rendre ces fichiers accessibles à partir du web, vous devez créer un lien symbolique entre le répertoire `public` et `storage` avec la commande `php artisan storage:link`.
+
+### 8. Lancement du serveur
 Une fois que toutes les dépendances sont installées et que la base de données est configurée et peuplée, lancez le serveur avec la commande `php artisan serve`.
 
 ## Vérification
